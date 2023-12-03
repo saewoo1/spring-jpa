@@ -1,0 +1,21 @@
+spring:
+  datasource:
+    url: jdbc:h2:mem:test # 외부 db쓰지말구 내부에 격리된 db 써주라 근데 이마저도 생략 가능.. spring boot 는 별도 설정이 없으면 메모리 모드로 돌린다.
+    username: sa
+    password:
+    driver-class-name: org.h2.Driver
+
+  jpa:
+    hibernate:
+      # ddl-auto -> 어플리케이션 실행 시 Entity 다 지우고, 다시 생성
+      ddl-auto: create
+    properties:
+      hibernate:
+        #        show_sql: true 얜 sout으로 보여줨
+        format_sql: true
+
+# create-drop -> 종료 전에 drop 문을 다 쏴줘
+
+logging:
+  level:
+    org.hibernate.SQL: debug
