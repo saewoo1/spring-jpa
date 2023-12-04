@@ -1,19 +1,13 @@
 package jpabook.jpashop.domain.item;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.DiscriminatorColumn;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.Inheritance;
-import jakarta.persistence.InheritanceType;
-import jakarta.persistence.ManyToMany;
-import java.util.ArrayList;
-import java.util.List;
+import jakarta.persistence.*;
 import jpabook.jpashop.domain.Category;
 import jpabook.jpashop.exception.NotEnoughStockException.NotEnoughStockException;
 import lombok.Getter;
 import lombok.Setter;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
@@ -53,5 +47,11 @@ public abstract class Item {
         }
 
         this.stockQuantity = restStock;
+    }
+
+    public void changeInformation(String name, int price, int stockQuantity) {
+        this.name = name;
+        this.price = price;
+        this.stockQuantity = stockQuantity;
     }
 }
