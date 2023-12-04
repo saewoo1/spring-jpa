@@ -1,25 +1,14 @@
 package jpabook.jpashop.domain;
 
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.OneToOne;
-import jakarta.persistence.Table;
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
+import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "orders")
@@ -44,6 +33,13 @@ public class Order {
     * 주인 아닌쪽에 가서 나 주인 아님. 걍 거울이에요 선언하면 된다.
     *
     * Order 의 member 를 변경할 시 member_id FK 값이 다른 멤버로 변경된다
+    * */
+
+    /*
+    * 2장
+    * JPA API 설계로 쭉 뽑아보려는데, byteBuddy ~  하면서 서버가 뻗음
+    * -> LAZY 설정해뒀으니 JPA 는 Member 안건들임 -> 있어야되긴 하니까 프록시 로 가짜 멤버(byteBuddy) 생성해
+    * 근데 얘가 순수 객체가 아니라 ManyToOne 관계가 설정된 애네? 어케 못해 뻗어
     * */
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")

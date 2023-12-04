@@ -1,15 +1,12 @@
 package jpabook.jpashop.domain;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Embedded;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
-import java.util.ArrayList;
-import java.util.List;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter @Setter
@@ -18,6 +15,7 @@ public class Member {
     @Id @GeneratedValue // sequence 값으로 쓸게
     @Column(name = "member_id")
     private Long id;
+
     private String name;
 
     @Embedded
@@ -29,6 +27,7 @@ public class Member {
     * 난 걍 얘가 바뀌면 바뀌는 거울임. 읽기 전용!
     * orders에 뭘 더 추가한다고 해서 FK 영향 없음요
     * */
+    @JsonIgnore
     @OneToMany(mappedBy = "member")
     private List<Order> orders = new ArrayList<>();
 }
