@@ -1,14 +1,22 @@
 package jpabook.jpashop.domain.item;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.DiscriminatorColumn;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
+import jakarta.persistence.Inheritance;
+import jakarta.persistence.InheritanceType;
+import jakarta.persistence.ManyToMany;
+import java.util.ArrayList;
+import java.util.List;
 import jpabook.jpashop.domain.Category;
 import jpabook.jpashop.exception.NotEnoughStockException.NotEnoughStockException;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.BatchSize;
 
-import java.util.ArrayList;
-import java.util.List;
-
+@BatchSize(size = 100)
 @Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "dtype")

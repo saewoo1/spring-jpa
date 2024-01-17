@@ -1,12 +1,11 @@
 package jpabook.jpashop.repository;
 
 import jakarta.persistence.EntityManager;
+import java.util.List;
 import jpabook.jpashop.api.orderdto.OrderSimpleDTO;
 import jpabook.jpashop.domain.Order;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
-
-import java.util.List;
 
 @Repository
 @RequiredArgsConstructor
@@ -58,4 +57,34 @@ public class OrderRepository {
     *
     * API 스펙에 맞게 짠 코드가 되어버린다.
     * */
+
+    public List<Order> findAllWithItem() {
+        return em.createQuery(
+                "select distinct o from Order o"
+                        + " join fetch o.member m"
+                        + " join fetch o.delivery d"
+                        + " join fetch o.orderItems oi"
+                        + " join fetch oi.item i", Order.class
+        ).getResultList();
+    }
+    /*
+    * distinct -> 같은 식별자라면 중복 제거
+    * 일대 다(orderItems) 조회라서 다 쪽을 따라가버림 DB에는 여전히 4개지만, entity 기준으로 중복만 제거
+    *
+    * 단점 -> 페이징 불가능;;
+    * db에서 가져온 정보는 여전히 4개라서 시작, 끝점을 몰라.. -> 페이징이 불가능하다 베리 위험!
+    *
+    * 컬렉션 fetch join 은 1개만 쓸 수 있다
+    * 컬렉션 둘 이상에 페치 조인 쓰지마라. 데이터 부정확하게 조회될 위험이 있다.
+    * 일대 다대 다 ;;;
+    * */
+
+    public List<Order> findAllWithMemberDelivery(int offset, int limit) {
+        return em.createQuery(
+                "select o from Order o " +
+                        "join fetch o.member m " +
+                        "join fetch o.delivery d", Order.class)
+                .getResultList();
+    }
+
 }
